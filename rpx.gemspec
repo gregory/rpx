@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Rpx::VERSION
   spec.authors       = ["gregory"]
   spec.email         = ["greg2502@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{RealPage Exchange Ruby Wrapper}
+  spec.description   = %q{ruby client for the RealPageExchange SOAP API}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
+  spec.add_dependency "savon", "~> 0.9.14"
 end
