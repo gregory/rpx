@@ -1,5 +1,11 @@
-require "rpx/version"
+Dir[File.dirname(__FILE__) + '/rpx/*.rb'].each{ |file| require file }
 
 module Rpx
-  # Your code goes here...
+  extend self
+
+  attr_accessor :config
+
+  def configure
+    @config = Configuration.new.tap{ |configuration| yield(configuration) }
+  end
 end
