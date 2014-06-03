@@ -21,11 +21,6 @@ module Rpx
       end
     end
 
-
-    def search_by_date(options)
-      Client.search_by_date(options)
-    end
-
     def self.search_by_date(options)
       events = [*options.fetch(:events)]
       raise InvalidArgument.new(":events must be included in ") unless events.all?{|event| VALID_EVENTS.include? event}
