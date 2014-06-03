@@ -24,8 +24,8 @@ Or install it yourself as:
     	config.username    = USERNAME
       	config.password    = PASSWORD
 	end
-	
-	payload={ 
+
+	payload={
 		fromdate: '2014-05-10',
 		todate: '2014-06-10',
 		events: ['moveout']
@@ -38,13 +38,13 @@ Or install it yourself as:
 	resident.email
 	resident.leases.count => 3
 	lease = resident.leases.last
-	
+
 	lease.unitid
 	etc (check the code, it's pretty straight forward!)
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/rpx/fork )
+1. Fork it ( http://github.com/gregory/rpx/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
