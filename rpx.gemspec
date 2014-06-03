@@ -22,5 +22,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rake"
 
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry-stack_explorer"
+  spec.add_development_dependency "pry-rescue"
+
   spec.add_dependency "savon", "~> 0.9.14"
+  spec.add_dependency "hashie", '~>2.1.1'
 end

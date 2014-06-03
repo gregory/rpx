@@ -1,4 +1,6 @@
 require 'ostruct'
 module Rpx
-  class Configuration < OpenStruct; end
+  class Configuration < OpenStruct;
+    #TODO: be more restrictive with the options
+  end
 end
