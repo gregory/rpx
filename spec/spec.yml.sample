@@ -1,0 +1,5 @@
+configure:
+  username: USERNAME
+  password: PASSWORD
+  licensekey: LICENSE
+  api_url: "https://qagateway.rpx.realpage.com/rpxgateway/partner/RentMineOnline/RentMineOnline.svc?wsdl"
