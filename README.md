@@ -1,6 +1,6 @@
 # Rpx
 
-TODO: Write a gem description
+Ruby Client to talk with the RealPage Exchange SOAP API
 
 ## Installation
 
@@ -18,7 +18,29 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+	Rpx.configure do |config|
+		config.api_url     = API_URL
+		config.licensekey = KEY
+    	config.username    = USERNAME
+      	config.password    = PASSWORD
+	end
+	
+	payload={ 
+		fromdate: '2014-05-10',
+		todate: '2014-06-10',
+		events: ['moveout']
+	}
+	residents = Rpx::Client.search_by_date(payload) #You'll have residents with their leases
+	residents.count => 10
+	resident = residents.first
+
+	resident.firstname
+	resident.email
+	resident.leases.count => 3
+	lease = resident.leases.last
+	
+	lease.unitid
+	etc (check the code, it's pretty straight forward!)
 
 ## Contributing
 
