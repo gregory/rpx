@@ -2,7 +2,6 @@ module Rpx
   class Lease < Hashie::Trash
     include Hashie::Extensions::IgnoreUndeclared
     include Hashie::Extensions::Coercion
-    #coerce_value Date, LeaseDate #transform all the dates to LeaseDate format
 
     property :leaseid
 
