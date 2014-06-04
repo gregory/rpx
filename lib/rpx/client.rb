@@ -25,7 +25,7 @@ module Rpx
       events = [*options.fetch(:events)]
       raise InvalidArgument.new(":events must be included in ") unless events.all?{|event| VALID_EVENTS.include? event}
 
-      self.new(options).api_call :residentsearchbydate do |xml|
+      self.new(options).api_call :residentsearchbydate, options do |xml|
         xml.tem :residentsearch do |xml|
           xml.tem :startdate, options.fetch(:fromdate) #start date to retrieve active residents
           xml.tem :enddate, options.fetch(:todate) #end date to retrieve active residents
