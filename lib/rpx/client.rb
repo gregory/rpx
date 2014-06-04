@@ -25,7 +25,7 @@ module Rpx
       events = [*options.fetch(:events)]
       raise InvalidArgument.new(":events must be included in ") unless events.all?{|event| VALID_EVENTS.include? event}
 
-      self.new(options).api_call :residentsearchbydate do |xml|
+      self.new(options).api_call :residentsearchbydate, options do |xml|
         xml.tem :residentsearch do |xml|
           xml.tem :startdate, options.fetch(:fromdate) #start date to retrieve active residents
           xml.tem :enddate, options.fetch(:todate) #end date to retrieve active residents
@@ -46,6 +46,8 @@ module Rpx
                 xml.tem :auth do |xml|
                   xml.tem :siteid, options.fetch(:siteid)
                   xml.tem :pmcid, options.fetch(:pmcid)
+                  #xml.tem :siteid, '1971375'
+                  #xml.tem :pmcid, '1971374'
                   xml.tem :username, Rpx.config.username
                   xml.tem :password, Rpx.config.password
                   xml.tem :licensekey, Rpx.config.licensekey
