@@ -30,7 +30,7 @@ Or install it yourself as:
 		todate: '2014-06-10',
 		events: ['moveout']
 	}
-	residents = Rpx::Client.search_by_date(payload) #You'll have residents with their leases
+	residents = Rpx::Resident.with_events(payload) #You'll have residents with their leases
 	residents.count => 10
 	resident = residents.first
 
@@ -40,6 +40,9 @@ Or install it yourself as:
 	lease = resident.leases.last
 
 	lease.unitid
+
+  resident = Rpx::Residend.find(resident_id: resident_id, siteid: sid, pmcid: pmcid) #=> Resident
+  residents = Resident.current_residents(siteid: sid, pmcid: pmcid)
 	etc (check the code, it's pretty straight forward!)
 
 ## Contributing
