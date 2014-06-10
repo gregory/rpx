@@ -5,39 +5,19 @@ module Rpx
       "xmlns:tem"=>"http://tempuri.org/"
     }
 
-    VALID_EVENTS = ['moveout', 'movein']
-
-    attr_accessor :raw_response, :residents
-
     def initialize(options={})
-      @read_timeout = options.fetch(:read_timeout){ Rpx.config.read_timeout || 120 }
-      @debug = options.fetch(:debug){false}
+      @read_timeout = options.delete(:read_timeout){ Rpx.config.read_timeout || 120 }
+      @debug = options.delete(:debug){false}
     end
 
-    def client
-      @client ||= Savon::Client.new(log: @debug, pretty_print_xml: true) do
-        wsdl.document = Rpx.config.api_url
-        http.read_timeout = @read_timeout
-      end
-    end
+    def add_attributes_if_present(xml, options, attributes)
+      return add_attributes_if_present(xml, options, [attributes]) unless attributes.is_a? Array
 
-    def self.search_by_date(options)
-      events = [*options.fetch(:events)]
-      raise InvalidArgument.new(":events must be included in ") unless events.all?{|event| VALID_EVENTS.include? event}
-
-      self.new(options).api_call :residentsearchbydate, options do |xml|
-        xml.tem :residentsearch do |xml|
-          xml.tem :startdate, options.fetch(:fromdate) #start date to retrieve active residents
-          xml.tem :enddate, options.fetch(:todate) #end date to retrieve active residents
-          xml.tem :events do |xml|
-            events.each{|event| xml.tem :string, event}
-          end
-        end
-      end
+      attributes.each{ |attribute|  xml.tem(attribute, options[attribute]) if options[attribute] }
     end
 
     def api_call(action_name, options)
-      @raw_response = client.request action_name do
+      raw_response = client.request action_name do
         soap.xml do |xml|
           xml.soapenv :Envelope, NAMESPACES do |xml|
             xml.soapenv :Header
@@ -57,14 +37,23 @@ module Rpx
         end
       end
 
-      @residents = resident_list_from_raw({action_name: action_name}).map{ |res_hash| Resident.new(res_hash) }
+      resident_list_from_raw({ action_name: action_name, raw_response: raw_response })
     end
 
     private
 
-    def resident_list_from_raw(options)
-      action_name = options.fetch(:action_name)
-      self.raw_response[:"#{action_name}_response"][:"#{action_name}_result"][:residentlist][:resident]
+    def client
+      @client ||= Savon::Client.new(log: @debug, pretty_print_xml: true) do
+        wsdl.document = Rpx.config.api_url
+        http.read_timeout = @read_timeout
+      end
+    end
+
+    def resident_list_from_raw(params)
+      action_name  = params.fetch(:action_name)
+      raw_response = params.fetch(:raw_response)
+
+      raw_response[:"#{action_name}_response"][:"#{action_name}_result"][:residentlist][:resident]
     end
   end
 end

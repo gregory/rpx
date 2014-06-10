@@ -1,6 +1,6 @@
 require 'savon'
 require 'hashie'
-Dir[File.dirname(__FILE__) + '/rpx/*.rb'].each{ |file| require file }
+Dir[File.dirname(__FILE__) + '/rpx/**/*.rb'].each{ |file| require file }
 
 module Rpx
   extend self
