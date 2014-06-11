@@ -36,6 +36,9 @@ module Rpx
     property :siteid
     property :pmcid
 
+    def residenttype
+      self[:residenttype] == 'H' ? 'Head of Household' : 'Other'
+    end
 
     def self.where(options, client=Client.new(options))
       resident_hashs = client.api_call :getresidentlist, options do |xml|
@@ -46,7 +49,7 @@ module Rpx
       end
 
       site_properties = {siteid: options.fetch(:siteid), pmcid: options.fetch(:pmcid)}
-      [resident_hashs].flatten.map{ |resident_hash| Resident.new(resident_hash).merge(site_properties)  }
+      [resident_hashs].flatten.map{ |resident_hash| Resident.new(resident_hash.merge(site_properties)) }
     end
 
     def leases
