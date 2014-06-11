@@ -34,6 +34,14 @@ module Rpx
     property :hohbit
     property :activebit
 
+    class Boolean
+      def self.coerce(value)
+        value.is_a?(String) ? (value.downcase == 'true') : value
+      end
+    end
+
+    coerce_key :activebit, :hohbit, :signerbit, :guarantorbit, :inevict, :acceptpayments, :acceptcheck, Boolean
+
     def self.coerce(list_of_hash)
       return self.coerce([list_of_hash]) unless list_of_hash.is_a?(Array)
 
