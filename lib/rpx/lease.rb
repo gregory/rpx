@@ -47,5 +47,9 @@ module Rpx
 
       list_of_hash.map{ |h| self.new(h) }
     end
+
+    def moved_out?
+      self.moveoutdate != nil
+    end
   end
 end
