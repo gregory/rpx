@@ -10,8 +10,37 @@ module Rpx
     property :residentagestatus
 
     property :email, from: :emailaddress
-    property :leases, from: :leaseslist, with: ->(v){ v[:leases] }
+    property :leases, from: :leaseslist, with: ->(v){ binding.pry if v.nil?; v[:leases]}
     coerce_key :leases, Rpx::Lease
+
+    def self.where(options, client=Client.new(options))
+      resident_hashs = client.api_call :residentsearchbyinfo, options do |xml|
+        xml.tem :residentsearch do |xml|
+          xml.tem :extensionData
+          client.add_attributes_if_present(xml, options, ResidentWithLease.properties.to_a)
+
+          if options[:leaselist]
+            xml.tem :leaselist do |xml|
+              xml.tem :leases do |xml|
+                client.add_attributes_if_present(xml, options, options.fetch(:leaselist).keys)
+              end
+            end
+          end
+        end
+      end
+
+      site_properties = {siteid: options.fetch(:siteid), pmcid: options.fetch(:pmcid)}
+      [resident_hashs].flatten.map{ |resident_hash| ResidentWithLease.new(resident_hash.merge(site_properties))  }
+    end
+
+
+    def current_resident?
+      current_lease.leasestatus == "Current Resident"
+    end
+
+    def moved_out?
+      current_lease.moved_out?
+    end
 
     def self.find(options, client=Client.new(options))
       resident_hash = client.api_call :getresidentbyresidentid, options do |xml|
