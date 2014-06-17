@@ -1,8 +1,13 @@
 require 'savon'
 require 'hashie'
-Dir[File.dirname(__FILE__) + '/rpx/**/*.rb'].each{ |file| require file }
 
 module Rpx
+  autoload :Client, 'rpx/client'
+  autoload :Configuration, 'rpx/configuration'
+  autoload :Resident, 'rpx/resident'
+  autoload :ResidentWithLease, 'rpx/resident_with_lease'
+  autoload :Lease, 'rpx/lease'
+
   extend self
 
   attr_accessor :config
