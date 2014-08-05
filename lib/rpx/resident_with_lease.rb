@@ -10,7 +10,7 @@ module Rpx
     property :residentagestatus
 
     property :email, from: :emailaddress
-    property :leases, from: :leaseslist, with: ->(v){ binding.pry if v.nil?; v[:leases]}
+    property :leases, from: :leaseslist, with: ->(v) { v[:leases] }
     coerce_key :leases, Rpx::Lease
 
     def self.where(options, client=Client.new(options))
